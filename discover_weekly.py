@@ -1,14 +1,31 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from config import credentials
 from datetime import datetime
+import os
+
+
+try:  # for running locally
+    from config import credentials
+
+    CLIENT_ID = credentials.CLIENT_ID
+    CLIENT_SECRET = credentials.CLIENT_SECRET
+    REDIRECT_URI = credentials.REDIRECT_URI
+    USER_ID = credentials.USER_ID
+    PLAYLIST_ID = credentials.PLAYLIST_ID
+
+except:  # for running with GitHub Actions
+    CLIENT_ID = os.environ["CLIENT_ID"]
+    CLIENT_SECRET = os.environ["CLIENT_SECRET"]
+    REDIRECT_URI = os.environ["REDIRECT_URI"]
+    USER_ID = os.environ["USER_ID"]
+    PLAYLIST_ID = os.environ["PLAYLIST_ID"]
 
 
 client = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
-        client_id=credentials.CLIENT_ID,
-        client_secret=credentials.CLIENT_SECRET,
-        redirect_uri=credentials.REDIRECT_URI,
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET,
+        redirect_uri=REDIRECT_URI,
         scope=[
             "playlist-read-private",
             "playlist-modify-private",
@@ -42,7 +59,7 @@ def create_new_playlist(playlist_id) -> dict:
     creates a new Spotify playlist for the current Discover Weekly playlist
     to be archived and returns the new playlist info as a dict object
     """
-    user = credentials.USER_ID
+    user = USER_ID
     date = get_discover_weekly_date(playlist_id=playlist_id)
     new_playlist = client.user_playlist_create(
         user=user,
@@ -58,7 +75,7 @@ def archive_discover_weekly(playlist_id, new_playlist) -> None:
     adds tracks from current Discover Weekly playlist into
     newly created archived Discover(ed) Weekly playlist
     """
-    user = credentials.USER_ID
+    user = USER_ID
     client.user_playlist_add_tracks(
         user=user,
         playlist_id=new_playlist["id"],
@@ -66,8 +83,8 @@ def archive_discover_weekly(playlist_id, new_playlist) -> None:
     )
 
 
-def main():
-    playlist_id = credentials.PLAYLIST_ID
+def main() -> None:
+    playlist_id = PLAYLIST_ID
     new_playlist = create_new_playlist(playlist_id=playlist_id)
     archive_discover_weekly(playlist_id=playlist_id, new_playlist=new_playlist)
 
