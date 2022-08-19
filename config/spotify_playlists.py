@@ -1,1 +1,0 @@
-PLAYLISTS = {"discover_weekly": "37i9dQZEVXcBLNJ4Hp5pUj"}

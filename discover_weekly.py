@@ -1,7 +1,6 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from config import credentials
-from config import spotify_playlists
 from datetime import datetime
 
 
@@ -68,7 +67,7 @@ def archive_discover_weekly(playlist_id, new_playlist) -> None:
 
 
 def main():
-    playlist_id = spotify_playlists.PLAYLISTS["discover_weekly"]
+    playlist_id = credentials.PLAYLIST_ID
     new_playlist = create_new_playlist(playlist_id=playlist_id)
     archive_discover_weekly(playlist_id=playlist_id, new_playlist=new_playlist)
 

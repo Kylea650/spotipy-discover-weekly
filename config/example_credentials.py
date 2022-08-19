@@ -7,3 +7,4 @@ CLIENT_SECRET = "<your client secret>"
 
 REDIRECT_URI = "<your re-direct URI>"  # usually http://localhost:8080/
 USER_ID = "<your username>"  # can be found through user > account > username
+PLAYLIST_ID = "<your discover weekly playlist URI>"
