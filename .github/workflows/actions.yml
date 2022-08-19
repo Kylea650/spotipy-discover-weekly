@@ -32,5 +32,6 @@ jobs:
           CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
           REDIRECT_URI: ${{ secrets.REDIRECT_URI }}
           USER_ID: ${{ secrets.USER_ID }}
+          PLAYLIST_ID: ${{ secrets.PLAYLIST_ID }}
         run: |
           python discover_weekly.py
