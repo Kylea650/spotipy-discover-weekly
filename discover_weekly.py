@@ -4,8 +4,6 @@ from spotipy.oauth2 import SpotifyOAuth
 from datetime import datetime
 import os
 
-from config.credentials import REFRESH_TOKEN
-
 
 try:  # for running locally
     from config import credentials
@@ -39,7 +37,7 @@ def get_client(client_id, client_secret, redirect_uri, refresh_token):
             "playlist-modify-private",
         ],
     )
-    auth_manager.refresh_access_token(refresh_token=refresh_token)
+    auth_manager.refresh_access_token(refresh_token)
     client = spotipy.Spotify(auth_manager=auth_manager)
     return client
 
