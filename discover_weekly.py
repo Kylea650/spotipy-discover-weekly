@@ -55,9 +55,9 @@ def get_discover_weekly_date(client, playlist_id) -> str:
     returns the playlist date of the current week's Discover Weekly playlist
     in YYYY-MM-DD format
     """
-    playlist = client.playlist(playlist_id=playlist_id)
+    playlist = client.playlist_items(playlist_id=playlist_id)
     created_date = datetime.strptime(
-        playlist["tracks"]["items"][0]["added_at"], "%Y-%m-%dT%H:%M:%S%z"
+        playlist["items"][0]["added_at"], "%Y-%m-%dT%H:%M:%S%z"
     )
     return created_date.strftime("%Y-%m-%d")
 
