@@ -35,6 +35,7 @@ def get_client(client_id, client_secret, redirect_uri, refresh_token):
         scope=[
             "playlist-read-private",
             "playlist-modify-private",
+            "playlist-read-collaborative"
         ],
     )
     auth_manager.refresh_access_token(refresh_token)
