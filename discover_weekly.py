@@ -37,7 +37,7 @@ def get_client(client_id, client_secret, redirect_uri, refresh_token):
             "playlist-read-collaborative"
         ],
     )
-#     auth_manager.refresh_access_token(refresh_token)
+    auth_manager.refresh_access_token(refresh_token)
     client = spotipy.Spotify(auth_manager=auth_manager)
     return client
 
