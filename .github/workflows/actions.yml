@@ -1,4 +1,4 @@
-name: discover-weekly-archive
+name: discover-weekly-archive-run
 
 on:
   schedule:
