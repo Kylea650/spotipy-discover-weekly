@@ -4,11 +4,21 @@ from datetime import datetime
 import os
 
 
-CLIENT_ID = os.environ["CLIENT_ID"]
-CLIENT_SECRET = os.environ["CLIENT_SECRET"]
-REDIRECT_URI = os.environ["REDIRECT_URI"]
-USER_ID = os.environ["USER_ID"]
-PLAYLIST_ID = os.environ["PLAYLIST_ID"]
+try:  # for running locally
+    from config import credentials
+
+    CLIENT_ID = credentials.CLIENT_ID
+    CLIENT_SECRET = credentials.CLIENT_SECRET
+    REDIRECT_URI = credentials.REDIRECT_URI
+    USER_ID = credentials.USER_ID
+    PLAYLIST_ID = credentials.PLAYLIST_ID
+
+except:  # for running with GitHub Actions
+    CLIENT_ID = os.environ["CLIENT_ID"]
+    CLIENT_SECRET = os.environ["CLIENT_SECRET"]
+    REDIRECT_URI = os.environ["REDIRECT_URI"]
+    USER_ID = os.environ["USER_ID"]
+    PLAYLIST_ID = os.environ["PLAYLIST_ID"]
 
 
 client = spotipy.Spotify(
