@@ -33,5 +33,6 @@ jobs:
           REDIRECT_URI: ${{ secrets.REDIRECT_URI }}
           USER_ID: ${{ secrets.USER_ID }}
           PLAYLIST_ID: ${{ secrets.PLAYLIST_ID }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
         run: |
           python discover_weekly.py
