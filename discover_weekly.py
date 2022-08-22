@@ -23,7 +23,7 @@ except:  # for running with GitHub Actions
     REFRESH_TOKEN = os.environ["REFRESH_TOKEN"]
 
 
-def get_client(client_id, client_secret, redirect_uri, refresh_token):
+def get_client(client_id, client_secret, redirect_uri, user, refresh_token):
     """
     returns the authenticated Spotify client
     """
@@ -36,6 +36,7 @@ def get_client(client_id, client_secret, redirect_uri, refresh_token):
             "playlist-modify-private",
             "playlist-read-collaborative"
         ],
+        username=user
     )
     auth_manager.refresh_access_token(refresh_token)
     client = spotipy.Spotify(auth_manager=auth_manager)
@@ -96,6 +97,7 @@ def main() -> None:
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET,
         redirect_uri=REDIRECT_URI,
+        user=user,
         refresh_token=REFRESH_TOKEN,
     )
     new_playlist = create_new_playlist(
