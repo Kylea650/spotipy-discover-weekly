@@ -1,8 +1,9 @@
 name: discover-weekly-archive-run
 
 on:
-  schedule:
-  - cron: '0 8 * * 1' # Runs every Monday at 8am UTC
+  workflow_dispatch
+#   schedule:
+#   - cron: '0 8 * * 1' # Runs every Monday at 8am UTC
 
 jobs:
   build:
