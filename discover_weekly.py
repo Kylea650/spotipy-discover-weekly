@@ -1,4 +1,3 @@
-from http import client
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from datetime import datetime
