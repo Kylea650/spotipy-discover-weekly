@@ -1,4 +1,4 @@
 .env
 config/credentials.py
-.cache
+.cache*
 __pycache__

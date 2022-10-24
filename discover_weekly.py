@@ -1,7 +1,17 @@
-import spotipy
-from spotipy.oauth2 import SpotifyOAuth
-from datetime import datetime
+import logging
 import os
+import sys
+from datetime import datetime
+
+import spotipy
+from spotipy import SpotifyOauthError
+from spotipy.oauth2 import SpotifyOAuth
+
+logger = logging.getLogger("discovered-weekly")
+handler = logging.StreamHandler()
+handler.setFormatter(logging.Formatter(fmt="%(asctime)s : %(levelname)s : %(message)s"))
+logger.setLevel(logging.INFO)
+logger.addHandler(handler)
 
 
 try:  # for running locally
@@ -47,6 +57,8 @@ def get_discover_weekly_tracks(client, playlist_id) -> list[str]:
     """
     returns all track URIs for the current week's Discover Weekly playlist
     """
+    logger.info("Retrieving tracks from this week's Discovered Weekly")
+
     discover_weekly_tracks = client.playlist_tracks(playlist_id=playlist_id)
     return [track["track"]["uri"] for track in discover_weekly_tracks["items"]]
 
@@ -68,6 +80,8 @@ def create_new_playlist(client, user, playlist_id) -> dict:
     creates a new Spotify playlist for the current Discover Weekly playlist
     to be archived and returns the new playlist info as a dict object
     """
+    logger.info("Creating a new empty playlist")
+
     date = get_discover_weekly_date(client=client, playlist_id=playlist_id)
     new_playlist = client.user_playlist_create(
         user=user,
@@ -91,21 +105,34 @@ def archive_discover_weekly(client, user, playlist_id, new_playlist) -> None:
 
 
 def main() -> None:
+    
+    logger.info(f"Beginning Discovered Weekly archive")
+
     user = USER_ID
     playlist_id = PLAYLIST_ID
-    client = get_client(
-        client_id=CLIENT_ID,
-        client_secret=CLIENT_SECRET,
-        redirect_uri=REDIRECT_URI,
-        user=user,
-        refresh_token=REFRESH_TOKEN,
-    )
+
+    logger.info("Connecting to Spotify with provided client credentials")
+    try:
+        client = get_client(
+            client_id=CLIENT_ID,
+            client_secret=CLIENT_SECRET,
+            redirect_uri=REDIRECT_URI,
+            user=user,
+            refresh_token=REFRESH_TOKEN,
+        )
+    except SpotifyOauthError:
+        logger.error("Invalid client credentials provided")
+        sys.exit(1)
+
     new_playlist = create_new_playlist(
         client=client, user=user, playlist_id=playlist_id
     )
+
     archive_discover_weekly(
         client=client, user=user, playlist_id=playlist_id, new_playlist=new_playlist
     )
+
+    logger.info("Discovered Weekly archiving complete")
 
 
 if __name__ == "__main__":
